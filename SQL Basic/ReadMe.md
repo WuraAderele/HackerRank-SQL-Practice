@@ -493,6 +493,7 @@ Output one of the following statements for each record in the table:
 |A|Integer|
 |B|Integer|
 |C|Integer|
+
               SELECT CASE 
                   WHEN A + B <= C
                     OR A + C <= B
@@ -525,6 +526,7 @@ The OCCUPATIONS table is described as follows:
 |-----|----|
 |Name|String|
 |Occupation|String|
+
                 SELECT CONCAT (
                     name
                     ,"("
@@ -545,3 +547,63 @@ The OCCUPATIONS table is described as follows:
                 GROUP BY Occupation
                 ORDER BY Count(Occupation)
                   ,Occupation ASC;
+
+### Weather Observation Station 18
+
+Consider *P1(a,b)* and *P2(c,d)* and  to be two points on a 2D plane.
+
+* a happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
+* b happens to equal the minimum value in Western Longitude (LONG_W in STATION).
+* c happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
+* d happens to equal the maximum value in Western Longitude (LONG_W in STATION).
+
+Query the Manhattan Distance between points *P1* and *P2* and  and round it to a scale of 4 decimal places.
+
+The **STATION** table is described as follows:
+
+| Field | Type |
+|------ |------|
+| ID | Number |
+| City | Varchar2(21) |
+| State | Varchar2(1) |
+| Lat_N | Number |
+| Long_N | Number |
+
+**Solution:**
+
+**Definition of Manhattan distance:** The distance between two points measured along axes at right angles. In a plane with p1 at (x1, y1) and p2 at (x2, y2), it is |x1 - x2| + |y1 - y2|.
+
+            SELECT
+                 ROUND(ABS(a - c) + ABS(b - d), 4)
+            FROM
+                (SELECT
+                    min(LAT_N) AS a,
+                    min(LONG_W) AS b,
+                    max(LAT_N) AS c,
+                    max(LONG_W) AS d
+                FROM STATION) AS dist_variables
+
+### Weather Observation Station 19
+
+Consider *P1(a,b)* and *P2(c,d)* and  to be two points on a 2D plane where *(a,b) are the respective minimum and and maximum values of Northern Latitude (LAT_N) and (c,d) are the respective minimum and maximum values of Western Longitude (LONG_W) in STATION.
+
+Query the Euclidean Distance between points *P1* and *P2* and format your answer to display 4 decimal digits.
+
+The STATION table is described as follows:
+
+| Field | Type |
+|------ |------|
+| ID | Number |
+| City | Varchar2(21) |
+| State | Varchar2(1) |
+| Lat_N | Number |
+| Long_N | Number |
+
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+**Solution**
+
+Euclidean distance formular:
+<p align="left">
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9c0157084fd89f5f3d462efeedc47d3d7aa0b773"></p>
+
