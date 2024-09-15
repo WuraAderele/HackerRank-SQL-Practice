@@ -607,3 +607,13 @@ Euclidean distance formular:
 <p align="left">
 <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9c0157084fd89f5f3d462efeedc47d3d7aa0b773"></p>
 
+            SELECT
+                ROUND(SQRT(POW((a - c),2) + POW((b - d),2)), 4)
+            FROM
+                (SELECT
+                    min(LAT_N) AS a,
+                    min(LONG_W) AS b,
+                    max(LAT_N) AS c,
+                    max(LONG_W) AS d
+                FROM STATION) AS dist_variables
+
