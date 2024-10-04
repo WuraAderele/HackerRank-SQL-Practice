@@ -1,3 +1,0 @@
-# Hackerank SQL (Intermediate) Challenges
-
-
