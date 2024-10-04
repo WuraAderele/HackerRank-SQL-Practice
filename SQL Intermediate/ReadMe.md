@@ -60,14 +60,14 @@ The following tables contain company data:
 
 * Lead_Manager: The lead_manager_code is the code of the lead manager, and the company_code is the code of the working company.
 
-  | Column | Type |
+| Column | Type |
 |--------|------|
 | lead_manager_code | String |
 | company_code | String |
 
 * Senior_Manager: The senior_manager_code is the code of the senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company.
   
-  | Column | Type |
+| Column | Type |
 |--------|------|
 | senior_manager_code | String |
 | lead_manager_code | String |
@@ -75,7 +75,7 @@ The following tables contain company data:
 
 * Manager: The manager_code is the code of the manager, the senior_manager_code is the code of its senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company. 
 
-  | Column | Type |
+| Column | Type |
 |--------|------|
 | manager_code | String |
 | senior_manager_code | String |
@@ -84,7 +84,7 @@ The following tables contain company data:
 
 * Employee: The employee_code is the code of the employee, the manager_code is the code of its manager, the senior_manager_code is the code of its senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company.
 
-  | Column | Type |
+| Column | Type |
 |--------|------|
 | employee_code | String |
 | manager_code | String |
