@@ -92,3 +92,45 @@ The following tables contain company data:
 | lead_manager_code | String |
 | company_code | String |
 
+## Weather Observation Station 20
+
+A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
+
+The STATION table is described as follows:
+
+| Field | Type |
+|-------|------|
+| ID | Number |
+| City | VarChar(21) |
+| State | VarChar(2) |
+| Lat_N | Number |
+| Long_W | Number |
+
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+### Solution
+
+To find the median in any dataset,
+* tOrder the values in ascending or descending order
+* Determine the count of all the values. If the count is even, find the average of the two middle numvbers. If the count is odd, the median is the middle number.
+
+Implement this in MySQL:
+
+      WITH ranked_values AS (      -- create a CTE that orders the column that contains the values we want to extract the median from
+          SELECT
+              LAT_N,
+              ROW_NUMBER() OVER (ORDER BY LAT_N) AS row_num, -- Assigns a unique row number to each value when sorted by value
+              COUNT(*) OVER () AS total      -- Provides the total count of rows in the dataset, avoiding the need for a separate count query
+          FROM STATION
+      )
+      
+      SELECT
+          ROUND(AVG(LAT_N), 4) AS Median
+      FROM ranked_values
+       WHERE row_num IN (FLOOR((total+1)/2), CEIL((total+1)/2))      -- Find the middle row(s) for both odd and even numbers of rows
+
+
+**Note:**
+
+For odd rows, the expression FLOOR((total_rows + 1) / 2) and CEIL((total_rows + 1) / 2) will point to the same middle value.
+For even rows, it helps identify the two middle values, which are averaged to compute the median.
