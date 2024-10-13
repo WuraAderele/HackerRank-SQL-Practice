@@ -92,6 +92,35 @@ The following tables contain company data:
 | lead_manager_code | String |
 | company_code | String |
 
+## Solution
+
+To solve this problem, we need to gather data from five tables: Company, Lead_Manager, Senior_Manager, Manager, and Employee, and then aggregate this data by the company_code. The output should include the company_code, the founder of the company, and counts for the lead managers, senior managers, managers, and employees. Finally, the results should be ordered by the company_code.
+
+            SELECT 
+                c.company_code,
+                c.founder,
+                COUNT(DISTINCT lm.lead_manager_code) AS total_lead_managers,
+                COUNT(DISTINCT sm.senior_manager_code) AS total_senior_managers,
+                COUNT(DISTINCT m.manager_code) AS total_managers,
+                COUNT(DISTINCT e.employee_code) AS total_employees
+            FROM 
+                Company c
+            LEFT JOIN 
+                Lead_Manager lm ON c.company_code = lm.company_code
+            LEFT JOIN 
+                Senior_Manager sm ON c.company_code = sm.company_code
+            LEFT JOIN 
+                Manager m ON c.company_code = m.company_code
+            LEFT JOIN 
+                Employee e ON c.company_code = e.company_code
+            GROUP BY 
+                c.company_code, c.founder
+            ORDER BY 
+                c.company_code;
+
+
+
+
 ## Weather Observation Station 20
 
 A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
@@ -111,7 +140,7 @@ where LAT_N is the northern latitude and LONG_W is the western longitude.
 ### Solution
 
 To find the median in any dataset,
-* tOrder the values in ascending or descending order
+* Order the values in ascending or descending order
 * Determine the count of all the values. If the count is even, find the average of the two middle numvbers. If the count is odd, the median is the middle number.
 
 Implement this in MySQL:
@@ -132,5 +161,34 @@ Implement this in MySQL:
 
 **Note:**
 
-For odd rows, the expression FLOOR((total_rows + 1) / 2) and CEIL((total_rows + 1) / 2) will point to the same middle value.
+For odd rows, the expression *FLOOR((total_rows + 1) / 2) and CEIL((total_rows + 1) / 2)* will point to the same middle value.
 For even rows, it helps identify the two middle values, which are averaged to compute the median.
+
+## Draw the Triangle
+
+P(R) represents a pattern drawn by Julia in R rows. The following pattern represents P(5):
+
+            * * * * * 
+            * * * * 
+            * * * 
+            * * 
+            *
+Write a query to print the pattern P(20).
+
+### Solution
+
+            WITH RECURSIVE pattern AS (
+                -- Base case: start with row 20, which has 20 asterisks
+                SELECT 20 AS row_num
+                UNION ALL
+                -- Recursive case: continue by decrementing the number of asterisks in each row
+                SELECT row_num - 1
+                FROM pattern
+                WHERE row_num > 1
+            )
+            
+            -- Select the pattern for each row
+            SELECT
+                REPEAT('* ', row_num) AS pattern_row
+            FROM
+                pattern;
